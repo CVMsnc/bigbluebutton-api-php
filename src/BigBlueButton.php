@@ -65,12 +65,14 @@ class BigBlueButton
         // Keeping backward compatibility with older deployed versions
         if (isset($securitySecret)) {
             $this->securitySecret = $securitySecret;
+        } else {
+            $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
         }
         if (isset($bbbServerBaseUrl)) {
             $this->bbbServerBaseUrl = $bbbServerBaseUrl;
+        } else {
+            $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
         }
-        $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
-        $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
     }
 
