@@ -60,9 +60,15 @@ class BigBlueButton
     protected $urlBuilder;
     protected $jSessionId;
 
-    public function __construct()
+    public function __construct($securitySecret = null, $bbbServerBaseUrl = null)
     {
         // Keeping backward compatibility with older deployed versions
+        if (isset($securitySecret)) {
+            $this->securitySecret = $securitySecret;
+        }
+        if (isset($bbbServerBaseUrl)) {
+            $this->bbbServerBaseUrl = $bbbServerBaseUrl;
+        }
         $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
         $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
